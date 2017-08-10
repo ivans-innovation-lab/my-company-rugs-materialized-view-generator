@@ -1,0 +1,20 @@
+---
+kind: "operation"
+client: "com.atomist:rug"
+version: "1.0.0-m.5"
+editor:
+  name: "ConvertExistingProjectToGenerator"
+  group: "atomist"
+  artifact: "rug-rugs"
+  version: "0.32.1"
+  origin:
+    repo: "git@github.com:idugalic/my-company-rugs-materialized-view-generator.git"
+    branch: "master"
+    sha: "ac42359*"
+  parameters:
+    - "archiveName": "query-side-project-generator"
+    - "groupId": "my-company-rugs"
+    - "version": "0.1.0"
+    - "generatorName": "NewQuerySideProject"
+    - "description": "Rug generator for a Spring component - Query Side project"
+
