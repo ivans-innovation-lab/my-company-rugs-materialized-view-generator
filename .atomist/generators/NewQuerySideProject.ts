@@ -79,7 +79,9 @@ export class NewQuerySideProject implements PopulateProject {
         // cleanChangeLog(project, this.groupId);
         removeUnnecessaryFiles(project);
         updatePom(project, this.artifactId, this.groupId, this.version, this.description);
-        movePackage(project, 'com.idugalic.queryside.myaggregate', this.rootPackage);
+        movePackage(project, "com.idugalic.queryside.myaggregate.domain", this.rootPackage.concat(".domain"));
+        movePackage(project, "com.idugalic.queryside.myaggregate.handler", this.rootPackage.concat(".handler"));
+        movePackage(project, "com.idugalic.queryside.myaggregate.repository", this.rootPackage.concat(".repository"));
         updateCircleCI(project, this.artifactId);
     }
 }
