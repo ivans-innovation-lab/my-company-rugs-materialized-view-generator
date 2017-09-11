@@ -1,4 +1,4 @@
-# my-company-rugs-materialized-view--generator
+# my-company-rugs-materialized-view-generator
 
 
 This [Rug][rug] project contains a generator for a [Spring Boot][boot]
@@ -28,7 +28,7 @@ You can install your archive locally
 ```
 $ rug install
 ```
-or publish to remote 'atomist' repositories
+and/or publish to remote 'atomist' repositories
 
 ```
 Slack: @atomist team (you should find YOUR_TOKEN in Slack response)
