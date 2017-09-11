@@ -14,31 +14,18 @@ import {
 @Tags("spring", "query", "idugalic")
 export class NewQuerySideProject implements PopulateProject {
 
-   @Parameter({
-        displayName: "Maven Artifact ID",
-        description: "Maven artifact identifier, i.e., the name of the jar without the version," +
-        " it is often the same as the project name",
-        pattern: "^[a-z][-a-z0-9_]*$", // Ideally this should be looking up artifactId as a common pattern
-        validInput: "a valid Maven artifact ID, which starts with a lower-case letter and contains only " +
-        " alphanumeric, -, and _ characters",
-        minLength: 1,
-        maxLength: 50,
-        required: false,
-    })
-    public artifactId: string = "myartifact";
-
     @Parameter({
-        displayName: "Maven Group ID",
-        description: "Maven group identifier, often used to provide a namespace for your project, e.g., com.pany.team",
-        pattern: Pattern.group_id,
-        validInput: "a valid Maven group ID, which starts with a letter, -, or _ and contains only alphanumeric," +
-        " -, and _ characters and may having leading period separated identifiers starting with letters or " +
-        " underscores and containing only alphanumeric and _ characters.",
+        displayName: "Aggregate name",
+        // tslint:disable-next-line:max-line-length
+        description: "Aggragate name will be used to construct maven artifact identifier: my-company-[aggragateName.toLowerCase]-domain",
+        pattern: "^[A-Z][-a-z0-9_]*$",
+        // tslint:disable-next-line:max-line-length
+        validInput: "a valid aggragate name, which starts with a lower-case letter and contains only alphanumeric, -, and _ characters",
         minLength: 1,
         maxLength: 50,
-        required: false,
+        required: true,
     })
-    public groupId: string = "mygroup";
+    public aggregateName: string = "Aggregate";
 
     @Parameter({
         displayName: "Version",
@@ -62,27 +49,22 @@ export class NewQuerySideProject implements PopulateProject {
     })
     public description: string = "my new project";
 
-    @Parameter({
-        displayName: "Root Package",
-        description: "root package for your generated source, often this will be namespaced under the group ID",
-        pattern: Pattern.java_package,
-        validInput: "a valid Java package name, which consists of period-separated identifiers which" +
-        " have only alphanumeric characters, $ and _ and do not start with a number",
-        minLength: 1,
-        maxLength: 50,
-        required: false,
-    })
-    public rootPackage: string = "com.myorg";
-
     public populate(project: Project) {
-        cleanReadMe(project, this.description, this.groupId);
-        // cleanChangeLog(project, this.groupId);
+        const artifactId: string = "my-company-" + this.aggregateName.toLowerCase() + "-materialized-view";
+        const groupId: string = "com.idugalic";
+
+        cleanReadMe(project, this.description, groupId);
         removeUnnecessaryFiles(project);
-        updatePom(project, this.artifactId, this.groupId, this.version, this.description);
-        movePackage(project, "com.idugalic.queryside.myaggregate.domain", this.rootPackage.concat(".domain"));
-        movePackage(project, "com.idugalic.queryside.myaggregate.handler", this.rootPackage.concat(".handler"));
-        movePackage(project, "com.idugalic.queryside.myaggregate.repository", this.rootPackage.concat(".repository"));
-        updateCircleCI(project, this.artifactId);
+        updatePom(project, artifactId, groupId, this.version, this.description);
+        movePackage(project, "com.idugalic.queryside.myaggregate.domain", groupId + ".queryside."
+        + this.aggregateName.toLowerCase() + ".domain");
+        movePackage(project, "com.idugalic.queryside.myaggregate.handler", groupId + ".queryside."
+        + this.aggregateName.toLowerCase() + ".handler");
+        movePackage(project, "com.idugalic.queryside.myaggregate.repository", groupId + ".queryside."
+        + this.aggregateName.toLowerCase() + ".repository");
+        renameClass(project, "MyAggregate", this.aggregateName);
+        renameClass(project, "MyAggregateViewEventHandler", this.aggregateName + "ViewEventHandler");
+        renameClass(project, "MyAggregateRepository", this.aggregateName + "Repository");
     }
 }
 
