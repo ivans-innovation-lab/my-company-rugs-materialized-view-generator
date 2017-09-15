@@ -114,6 +114,7 @@ export function movePackage(project: Project, oldPackage: string, newPackage: st
     eng.with<JavaSource>(project, `//JavaSource()[.pkg()='${oldPackage}']`, j => {
         j.movePackage(newPackage);
     });
+    project.replace(oldPackage, newPackage);
 }
 
 /**
