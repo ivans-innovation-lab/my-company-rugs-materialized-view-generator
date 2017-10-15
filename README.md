@@ -1,4 +1,4 @@
-# my-company-rugs-materialized-view-generator
+# [projects](http://ivans-innovation-lab.github.io/projects)/my-company-rugs-materialized-view-generator
 
 
 This [Rug][rug] project contains a generator for a [Spring Boot][boot]
